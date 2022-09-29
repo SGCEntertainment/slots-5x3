@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Slot Fruits</title>
+    <link rel="stylesheet" href="Data/style.css" />
+  </head>
+  <body style="text-align: center;">
+    <canvas id="unity-canvas"></canvas>
+    <script>
+
+      const canvas = document.querySelector('#unity-canvas');
+      const buildUrl = 'Build';
+      const loaderUrl = buildUrl + '/WebGL.loader.js';
+
+      const config = {
+        dataUrl: buildUrl + '/WebGL.data.br',
+        frameworkUrl: buildUrl + '/WebGL.framework.js.br',
+        codeUrl: buildUrl + '/WebGL.wasm.br',
+        streamingAssetsUrl: 'StreamingAssets',
+        companyName: 'DefaultCompany',
+        productName: 'Slot Fruits',
+        productVersion: '0.1',
+      };
+
+      const script = document.createElement('script');
+      script.src = loaderUrl;
+
+      script.onload = async () => {
+        try {
+          
+
+         await createUnityInstance(canvas,config);
+         
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>
