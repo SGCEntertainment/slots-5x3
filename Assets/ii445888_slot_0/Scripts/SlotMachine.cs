@@ -36,6 +36,8 @@ public class SlotMachine : MonoBehaviour
     [SerializeField] AudioSource spinSource;
     [SerializeField] AudioSource stoppingSource;
 
+    public static bool autoSpin;
+
     [SerializeField] Row[] rows;
 
     public void Pull()
@@ -80,7 +82,7 @@ public class SlotMachine : MonoBehaviour
     IEnumerator Rolling()
     {
         spinSource.Play();
-        spinBtn.interactable = false;
+        spinBtn.interactable = autoSpin && false;
 
         float elDistance = 0.0f;
         float totalDistance = maxCycle * width;
@@ -95,7 +97,13 @@ public class SlotMachine : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        spinBtn.interactable = true;
+        spinBtn.interactable = !autoSpin;
         spinSource.Stop();
+
+        if(autoSpin)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Pull();
+        }
     }
 }

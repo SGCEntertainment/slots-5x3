@@ -22,6 +22,8 @@ public class Row : MonoBehaviour
             int myCycle = cycles[transform.GetSiblingIndex()];
             StartCoroutine(RollMe(myCycle));
         };
+
+        SuffleMe();
     }
 
     void UpdateRow(float time)
@@ -41,6 +43,23 @@ public class Row : MonoBehaviour
     Vector3 GetUpElementPosition()
     {
         return transform.GetChild(0).localPosition;
+    }
+
+    void SuffleMe()
+    {
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Vector2 tmp = transform.GetChild(i).position;
+            int rv = Random.Range(i, transform.childCount);
+            transform.GetChild(i).position = transform.GetChild(rv).position;
+            transform.GetChild(rv).position = tmp;
+        }
+
+        foreach(Transform t in transform)
+        {
+            t.gameObject.SetActive(false);
+            t.gameObject.SetActive(true);
+        }
     }
 
     IEnumerator RollMe(int myCycle)
