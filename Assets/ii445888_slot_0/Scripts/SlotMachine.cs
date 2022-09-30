@@ -23,7 +23,7 @@ public class SlotMachine : MonoBehaviour
     int maxCycle;
     public static float width;
 
-    public delegate void HandlePulledDelegate(int[] cycles);
+    public delegate void HandlePulledDelegate(ReelData[] reelDatas);
     public event HandlePulledDelegate OnPullEvent;
 
     [Space(10)]
@@ -48,34 +48,48 @@ public class SlotMachine : MonoBehaviour
             return;
         }
 
-        int[] cycles = new int[rows.Length];
-        for(int i = 0; i < cycles.Length;)
+        int rowID = 0;
+        ReelData[] reelDatas = new ReelData[rows.Length];
+
+        for (int i = 0; i < reelDatas.Length;)
         {
-            int rv = UnityEngine.Random.Range(1, 3);
-            if (Array.Exists(cycles, element => element != rv))
-            {
-                cycles[i] = rv;
-                i++;
-            }
+            int startPoint = rowID * 75;
+            int rv = UnityEngine.Random.Range(150 + startPoint, startPoint + 250);
+
+            SlotData[] _slotDatas = GetResultSlotDataInRow(new string[] { "Lemon", "Cherry", "Plum" });
+            reelDatas[i] = new ReelData(rv, _slotDatas);
+
+            rowID++;
+            i++;
         }
 
-        for (int i = 0; i < cycles.Length;)
-        {
-            int rv = cycles[i] + UnityEngine.Random.Range(50, 250);
-            if (Array.Exists(cycles, element => element != rv))
-            {
-                cycles[i] = rv;
-                i++;
-            }
-        }
+        maxCycle = reelDatas[reelDatas.Length - 1].cycles;
 
-        var sorted = cycles.OrderBy(i => i);
-        cycles = sorted.ToArray();
-
-        maxCycle = cycles[cycles.Length - 1];
-
-        OnPullEvent?.Invoke(cycles);
+        OnPullEvent?.Invoke(reelDatas);
         StartCoroutine(nameof(Rolling));
+    }
+
+    public SlotData GetSlotDataByString(string _name) => _name switch
+    {
+        "Strawberry" => slotDatas[0],
+        "Orange" => slotDatas[1],
+        "Banana" => slotDatas[2],
+        "Blueberry" => slotDatas[3],
+        "Lemon" => slotDatas[4],
+        "Plum" => slotDatas[5],
+        "Pear" => slotDatas[6],
+        "Cherry" => slotDatas[7],
+    };
+
+    public SlotData[] GetResultSlotDataInRow(string[] names)
+    {
+        SlotData[] _slotDatas = new SlotData[3];
+        for(int i = 0; i < names.Length; i++)
+        {
+            _slotDatas[i] = GetSlotDataByString(names[i]);
+        }
+
+        return _slotDatas;
     }
 
     public void PlayStoppingSound()
@@ -121,6 +135,13 @@ public class SlotMachine : MonoBehaviour
     [Serializable]
     public class ReelData
     {
+        public int cycles;
         public SlotData[] slotDatas;
+
+        public ReelData(int cycles, SlotData[] slotDatas)
+        {
+            this.cycles = cycles;
+            this.slotDatas = slotDatas;
+        }
     }
 }

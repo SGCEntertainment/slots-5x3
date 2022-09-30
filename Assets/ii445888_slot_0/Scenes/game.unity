@@ -836,26 +836,26 @@ MonoBehaviour:
     win_amount: 0
     balance: 1260
     result:
-    - slotData:
-        up: 
-        middle: 
-        down: 
-    - slotData:
-        up: 
-        middle: 
-        down: 
-    - slotData:
-        up: 
-        middle: 
-        down: 
-    - slotData:
-        up: 
-        middle: 
-        down: 
-    - slotData:
-        up: 
-        middle: 
-        down: 
+    - iconNames:
+      - Strawberry
+      - Strawberry
+      - Strawberry
+    - iconNames:
+      - Strawberry
+      - Strawberry
+      - Strawberry
+    - iconNames:
+      - Strawberry
+      - Strawberry
+      - Strawberry
+    - iconNames:
+      - Strawberry
+      - Strawberry
+      - Strawberry
+    - iconNames:
+      - Strawberry
+      - Strawberry
+      - Strawberry
 --- !u!1 &267468760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2106,7 +2106,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -3451,6 +3451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66334890e24bf7a4fb28b6c55ee604cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reelData:
+    cycles: 0
+    slotDatas: []
 --- !u!1 &1127086612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3762,6 +3765,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66334890e24bf7a4fb28b6c55ee604cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reelData:
+    cycles: 0
+    slotDatas: []
 --- !u!224 &1231040735
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3956,6 +3962,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66334890e24bf7a4fb28b6c55ee604cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reelData:
+    cycles: 0
+    slotDatas: []
 --- !u!1 &1387901427
 GameObject:
   m_ObjectHideFlags: 0
@@ -4699,6 +4708,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66334890e24bf7a4fb28b6c55ee604cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reelData:
+    cycles: 0
+    slotDatas: []
 --- !u!1 &1585111684
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,6 +5076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66334890e24bf7a4fb28b6c55ee604cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reelData:
+    cycles: 0
+    slotDatas: []
 --- !u!1 &1874750725
 GameObject:
   m_ObjectHideFlags: 0

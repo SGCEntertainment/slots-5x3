@@ -173,14 +173,6 @@ public class Manager : MonoBehaviour
     [Serializable]
     public class ReelData
     {
-        public SlotData slotData;
-    }
-
-    [Serializable]
-    public class SlotData
-    {
-        public string up;
-        public string middle;
-        public string down;
+        public string[] iconNames;
     }
 }

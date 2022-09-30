@@ -1,10 +1,13 @@
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Row : MonoBehaviour
 {
     float[] pos;
     float minY;
+
+    [SerializeField] SlotMachine.ReelData reelData;
 
     private void Start()
     {
@@ -17,9 +20,11 @@ public class Row : MonoBehaviour
         SlotMachine.width = Mathf.Abs(transform.GetChild(1).localPosition.y - transform.GetChild(0).localPosition.y);
         minY = transform.GetChild(transform.childCount - 1).localPosition.y - SlotMachine.width;
 
-        SlotMachine.Instance.OnPullEvent += (cycles) =>
+        SlotMachine.Instance.OnPullEvent += (reelDatas) =>
         {
-            int myCycle = cycles[transform.GetSiblingIndex()];
+            reelData = reelDatas[transform.GetSiblingIndex()];
+
+            int myCycle = reelDatas[transform.GetSiblingIndex()].cycles;
             StartCoroutine(RollMe(myCycle));
         };
 
@@ -76,7 +81,19 @@ public class Row : MonoBehaviour
             yield return null;
         }
 
-        foreach(Transform t in transform)
+        Image up = transform.GetChild(transform.childCount - 3).GetComponent<Image>();
+        Image middle = transform.GetChild(transform.childCount - 2).GetComponent<Image>();
+        Image down = transform.GetChild(transform.childCount - 1).GetComponent<Image>();
+
+        up.sprite = reelData.slotDatas[0].icon;
+        middle.sprite = reelData.slotDatas[1].icon;
+        down.sprite = reelData.slotDatas[2].icon;
+
+        up.SetNativeSize();
+        middle.SetNativeSize();
+        down.SetNativeSize();
+
+        foreach (Transform t in transform)
         {
             t.localPosition = new Vector2(t.localPosition.x, pos[t.GetSiblingIndex()]);
         }
