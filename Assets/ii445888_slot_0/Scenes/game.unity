@@ -830,32 +830,12 @@ MonoBehaviour:
   gameInfo:
     balance: 0
     bids: 
-  ri:
-    status: 1
+  rollInfo:
+    status: 0
     win: 0
     win_amount: 0
-    balance: 1260
-    result:
-    - iconNames:
-      - Strawberry
-      - Strawberry
-      - Strawberry
-    - iconNames:
-      - Strawberry
-      - Strawberry
-      - Strawberry
-    - iconNames:
-      - Strawberry
-      - Strawberry
-      - Strawberry
-    - iconNames:
-      - Strawberry
-      - Strawberry
-      - Strawberry
-    - iconNames:
-      - Strawberry
-      - Strawberry
-      - Strawberry
+    balance: 0
+    result: []
 --- !u!1 &267468760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,9 +1219,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2090818234}
-        m_TargetAssemblyTypeName: SlotMachine, Assembly-CSharp
-        m_MethodName: Pull
+      - m_Target: {fileID: 267268699}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
+        m_MethodName: TrySpin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

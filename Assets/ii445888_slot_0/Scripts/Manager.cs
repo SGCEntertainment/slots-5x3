@@ -22,6 +22,8 @@ public class Manager : MonoBehaviour
         }
     }
 
+    bool trySpin;
+
     int idBet;
     int totalBet;
 
@@ -34,7 +36,7 @@ public class Manager : MonoBehaviour
 
     [Space(10)]
     [SerializeField] GameInfo gameInfo;
-    public RollInfo ri;
+    [SerializeField] RollInfo rollInfo;
 
     private void Start()
     {
@@ -62,29 +64,41 @@ public class Manager : MonoBehaviour
         return gameInfo.balance >= totalBet && totalBet > 0;
     }
 
-    public bool TrySpin()
+    public void TrySpin()
     {
-        if(!CanSpin())
+        if(trySpin)
         {
-            return false;
+            return;
         }
 
-        gameInfo.balance -= totalBet;
-        if(gameInfo.balance < 0)
-        {
-            gameInfo.balance = 0;
-        }
+        trySpin = true;
 
-        UpdateCoinsCount();
-        return true;
+        StartCoroutine(GetRollInfo("https://disbark.ru/spin?game_id=100&user_id=2&bid=10", (_rollInfo) =>
+        {
+            rollInfo = _rollInfo;
+            UpdateCoinsCount(rollInfo.win_amount);
+
+            if (!CanSpin())
+            {
+                return;
+            }
+
+            gameInfo.balance -= totalBet;
+            if (gameInfo.balance < 0)
+            {
+                gameInfo.balance = 0;
+            }
+
+            UpdateCoinsCount();
+            SlotMachine.Instance.Pull(rollInfo.result);
+
+            trySpin = false;
+        }));
     }
 
     public void CalculatePrize()
     {
-        StartCoroutine(GetRollInfo("https://disbark.ru/spin?game_id=100&user_id=2&bid=10", (rollInfo) => 
-        {
-            UpdateCoinsCount(rollInfo.win_amount);
-        }));
+        
     }
 
     public void SetAutoSpin()

@@ -41,13 +41,8 @@ public class SlotMachine : MonoBehaviour
     [SerializeField] Row[] rows;
     [SerializeField] SlotData[] slotDatas;
 
-    public void Pull()
+    public void Pull(Manager.ReelData[] reelData)
     {
-        if(!Manager.Instance.TrySpin())
-        {
-            return;
-        }
-
         int rowID = 0;
         ReelData[] reelDatas = new ReelData[rows.Length];
 
@@ -56,7 +51,7 @@ public class SlotMachine : MonoBehaviour
             int startPoint = rowID * 75;
             int rv = UnityEngine.Random.Range(150 + startPoint, startPoint + 250);
 
-            SlotData[] _slotDatas = GetResultSlotDataInRow(new string[] { "Lemon", "Cherry", "Plum" });
+            SlotData[] _slotDatas = GetResultSlotDataInRow(reelData[i].iconNames);
             reelDatas[i] = new ReelData(rv, _slotDatas);
 
             rowID++;
@@ -121,7 +116,7 @@ public class SlotMachine : MonoBehaviour
         if(autoSpin)
         {
             yield return new WaitForSeconds(0.5f);
-            Pull();
+            Manager.Instance.TrySpin();
         }
     }
 
