@@ -39,10 +39,14 @@ public class SlotMachine : MonoBehaviour
     public static bool autoSpin;
 
     [SerializeField] Row[] rows;
+    [SerializeField] SlotData[] slotDatas;
 
     public void Pull()
     {
-        Manager.Instance.TrySpin();
+        if(!Manager.Instance.TrySpin())
+        {
+            return;
+        }
 
         int[] cycles = new int[rows.Length];
         for(int i = 0; i < cycles.Length;)
@@ -105,5 +109,18 @@ public class SlotMachine : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             Pull();
         }
+    }
+
+    [Serializable]
+    public class SlotData
+    {
+        public string value;
+        public Sprite icon;
+    }
+
+    [Serializable]
+    public class ReelData
+    {
+        public SlotData[] slotDatas;
     }
 }

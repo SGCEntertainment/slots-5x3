@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -33,10 +34,11 @@ public class Manager : MonoBehaviour
 
     [Space(10)]
     [SerializeField] GameInfo gameInfo;
+    public RollInfo ri;
 
     private void Start()
     {
-        StartCoroutine(GetGameInfo("http://alred98i.beget.tech/load?game_id=100&user_id=2", (_gameInfo) => 
+        StartCoroutine(GetGameInfo("https://disbark.ru/load?game_id=100&user_id=2", (_gameInfo) => 
         {
             gameInfo = _gameInfo;
 
@@ -60,11 +62,11 @@ public class Manager : MonoBehaviour
         return gameInfo.balance >= totalBet && totalBet > 0;
     }
 
-    public void TrySpin()
+    public bool TrySpin()
     {
         if(!CanSpin())
         {
-            return;
+            return false;
         }
 
         gameInfo.balance -= totalBet;
@@ -74,11 +76,12 @@ public class Manager : MonoBehaviour
         }
 
         UpdateCoinsCount();
+        return true;
     }
 
     public void CalculatePrize()
     {
-        StartCoroutine(GetRollInfo("http://alred98i.beget.tech/spin?game_id=100&user_id=2&bid=10", (rollInfo) => 
+        StartCoroutine(GetRollInfo("https://disbark.ru/spin?game_id=100&user_id=2&bid=10", (rollInfo) => 
         {
             UpdateCoinsCount(rollInfo.win_amount);
         }));
@@ -164,6 +167,20 @@ public class Manager : MonoBehaviour
         public bool win;
         public int win_amount;
         public int balance;
-        public int[] result;
+        public ReelData[] result;
+    }
+
+    [Serializable]
+    public class ReelData
+    {
+        public SlotData slotData;
+    }
+
+    [Serializable]
+    public class SlotData
+    {
+        public string up;
+        public string middle;
+        public string down;
     }
 }

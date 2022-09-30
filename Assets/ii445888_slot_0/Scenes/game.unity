@@ -830,6 +830,32 @@ MonoBehaviour:
   gameInfo:
     balance: 0
     bids: 
+  ri:
+    status: 1
+    win: 0
+    win_amount: 0
+    balance: 1260
+    result:
+    - slotData:
+        up: 
+        middle: 
+        down: 
+    - slotData:
+        up: 
+        middle: 
+        down: 
+    - slotData:
+        up: 
+        middle: 
+        down: 
+    - slotData:
+        up: 
+        middle: 
+        down: 
+    - slotData:
+        up: 
+        middle: 
+        down: 
 --- !u!1 &267468760
 GameObject:
   m_ObjectHideFlags: 0
@@ -5619,6 +5645,23 @@ MonoBehaviour:
   - {fileID: 1578115963}
   - {fileID: 1099202785}
   - {fileID: 1231040734}
+  slotDatas:
+  - value: Strawberry
+    icon: {fileID: 7207882119082248946, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Orange
+    icon: {fileID: -7817259731008224619, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Banana
+    icon: {fileID: 8459430566571322924, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Blueberry
+    icon: {fileID: 1251309877831849473, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Lemon
+    icon: {fileID: -3905682121003437408, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Plum
+    icon: {fileID: -7437742398462056877, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Pear
+    icon: {fileID: -7437742398462056877, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
+  - value: Cherry
+    icon: {fileID: 7926399269539078264, guid: 3b6710bc3113d4a4ca342d3a13ad97a2, type: 3}
 --- !u!1 &2111999258
 GameObject:
   m_ObjectHideFlags: 0
