@@ -110,14 +110,14 @@ public class SlotMachine : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        spinBtn.interactable = !autoSpin;
-        spinSource.Stop();
-
         if(autoSpin)
         {
             yield return new WaitForSeconds(0.5f);
             Manager.Instance.TrySpin();
         }
+
+        spinBtn.interactable = !autoSpin;
+        spinSource.Stop();
     }
 
     [Serializable]

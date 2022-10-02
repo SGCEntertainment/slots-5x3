@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour
     bool trySpin;
 
     int idBet;
-    int totalBet;
+    public int totalBet;
 
     [SerializeField] Text betText;
     [SerializeField] Text totalBetWin;
@@ -40,23 +40,24 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"Application.absoluteURL: {Application.absoluteURL}");
         StartCoroutine(GetGameInfo("https://disbark.ru/load?game_id=100&user_id=2", (_gameInfo) => 
         {
             gameInfo = _gameInfo;
 
-            UpdateCoinsCount();
+            UpdateCoinsCount(gameInfo.balance);
             ChangeBet(0);
         }));
     }
 
     private void Update()
     {
-        statusAtoSpinGO.transform.Rotate(120.0f * Time.deltaTime * Vector3.back);
-    }
+        if(!statusAtoSpinGO.activeSelf)
+        {
+            return;
+        }
 
-    public void Back()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        statusAtoSpinGO.transform.Rotate(120.0f * Time.deltaTime * Vector3.back);
     }
 
     bool CanSpin()
@@ -66,30 +67,24 @@ public class Manager : MonoBehaviour
 
     public void TrySpin()
     {
-        if(trySpin)
+
+        if (!CanSpin() || trySpin)
         {
+            if (gameInfo.balance <= 0)
+            {
+                SlotMachine.autoSpin = false;
+                statusAtoSpinGO.SetActive(false);
+            }
             return;
         }
 
         trySpin = true;
 
-        StartCoroutine(GetRollInfo("https://disbark.ru/spin?game_id=100&user_id=2&bid=10", (_rollInfo) =>
+        StartCoroutine(GetRollInfo($"https://disbark.ru/spin?game_id=100&user_id=2&bid={totalBet}", (_rollInfo) =>
         {
             rollInfo = _rollInfo;
-            UpdateCoinsCount(rollInfo.win_amount);
 
-            if (!CanSpin())
-            {
-                return;
-            }
-
-            gameInfo.balance -= totalBet;
-            if (gameInfo.balance < 0)
-            {
-                gameInfo.balance = 0;
-            }
-
-            UpdateCoinsCount();
+            UpdateCoinsCount(rollInfo.balance);
             SlotMachine.Instance.Pull(rollInfo.result);
 
             trySpin = false;
@@ -107,10 +102,10 @@ public class Manager : MonoBehaviour
         statusAtoSpinGO.SetActive(SlotMachine.autoSpin);
     }
 
-    public void UpdateCoinsCount(int amount = 0)
+    public void UpdateCoinsCount(int amount)
     {
-        gameInfo.balance += amount;
-        winText.text = gameInfo.balance.ToString("WIN: ##,# $", CultureInfo.CurrentCulture);
+        gameInfo.balance = amount;
+        winText.text = gameInfo.balance > 0 ? gameInfo.balance.ToString("WIN: ##,# $", CultureInfo.CurrentCulture) : $"WIN: {0} $";
     }
 
     public void SetMaxBet()
@@ -181,6 +176,7 @@ public class Manager : MonoBehaviour
         public bool win;
         public int win_amount;
         public int balance;
+        public int[] winlines;
         public ReelData[] result;
     }
 
