@@ -107,7 +107,6 @@ public class SlotMachine : MonoBehaviour
         }
 
         Manager.Instance.CalculatePrize();
-
         yield return new WaitForSeconds(0.5f);
 
         if(autoSpin)

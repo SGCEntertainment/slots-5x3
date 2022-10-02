@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour
     bool trySpin;
 
     int idBet;
-    public int totalBet;
+    int totalBet;
 
     [SerializeField] Text betText;
     [SerializeField] Text totalBetWin;
@@ -35,12 +35,27 @@ public class Manager : MonoBehaviour
     [SerializeField] GameObject statusAtoSpinGO;
 
     [Space(10)]
-    [SerializeField] GameInfo gameInfo;
-    [SerializeField] RollInfo rollInfo;
+    [SerializeField] GameObject warningGO;
+
+    [Space(10)]
+    [SerializeField] Transform winlineParent;
+    [SerializeField] GameObject[] winLinePrefabs;
+
+    GameInfo gameInfo;
+    RollInfo rollInfo;
 
     private void Start()
     {
-        Debug.Log($"Application.absoluteURL: {Application.absoluteURL}");
+        #if !UNITY_EDITOR
+
+        if(!string.Equals(Application.absoluteURL, "https://slots5x3.netlify.app/"))
+        {
+            warningGO.SetActive(true);
+            return;
+        }
+
+        #endif
+
         StartCoroutine(GetGameInfo("https://disbark.ru/load?game_id=100&user_id=2", (_gameInfo) => 
         {
             gameInfo = _gameInfo;
@@ -91,9 +106,19 @@ public class Manager : MonoBehaviour
         }));
     }
 
+    GameObject GetWinLineById(int id) => id switch
+    {
+        1 => winLinePrefabs[0],
+        2 => winLinePrefabs[1],
+        3 => winLinePrefabs[2]
+    };
+
     public void CalculatePrize()
     {
-        
+        foreach (int i in rollInfo.winlines)
+        {
+            Instantiate(GetWinLineById(i), winlineParent);
+        }
     }
 
     public void SetAutoSpin()
